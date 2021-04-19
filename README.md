@@ -517,10 +517,71 @@ log-querise-not-using-indexes=ON;
 ②StatementHandler：拦截 SQL 语法构建的处理，它是 MyBatis 直接和数据库执行SQL 脚本的对象，另外它也实现了 MyBatis 的一级缓存。
 ③ParameterHandler：拦截参数的处理。
 ④ResultSetHandler：拦截结果集的处理。
+
+28>类的加载
+
+    Java 的类加载过程可以分为 5 个阶段：加载、验证、准备、解析和初始化。这 5 个阶段一般是顺序发生的，
+    但在动态绑定的情况下，解析阶段发生在初始化阶段之后。
+	(1)加载
+        主要目的是将字节码从不同的数据源（可能是 class 文件、也可能是 jar 包，甚至网络）
+        转化为二进制字节流加载到内存中，并生成一个代表该类的 java.lang.Class 对象。
+	(2)验证
+        JVM 会在该阶段对二进制字节流进行校验，只有符合 JVM 字节码规范的才能被 JVM 正确执行。
+        该阶段是保证 JVM 安全的重要屏障，下面是一些主要的检查。
+            确保二进制字节流格式符合预期。
+            是否所有方法都遵守访问控制关键字的限定。
+            方法调用的参数个数和类型是否正确。
+            确保变量在使用之前被正确初始化了。
+            检查变量是否被赋予恰当类型的值。
+	(3)准备
+        JVM 会在该阶段对类变量（也称为静态变量，static 关键字修饰的）
+        分配内存并初始化（对应数据类型的默认初始值，如 0、0L、null、false 等）。
+        也就是说，假如有这样一段代码：
+        public String chenmo = "沉默";
+        public static String wanger = "王二";
+        public static final String cmower = "沉默王二";
+        chenmo 不会被分配内存，而 wanger 会；但 wanger 的初始值不是“王二”而是 null。
+        需要注意的是，static final 修饰的变量被称作为常量，和类变量不同。
+        常量一旦赋值就不会改变了，所以 cmower 在准备阶段的值为“沉默王二”而不是 null。
+	(4)解析
+        该阶段将常量池中的符号引用转化为直接引用。
+        在编译时，Java 类并不知道所引用的类的实际地址，因此只能使用符号引用来代替。
+        直接引用通过对符号引用进行解析，找到引用的实际内存地址。
+        比如 com.Wanger 类引用了 com.Chenmo 类，编译时 Wanger 类并不知道 Chenmo 类的实际内存地址，因此只能使用符号 com.Chenmo。
+	(5)初始化
+        初始化阶段是执行类构造器方法的过程。
+        String cmower = new String("沉默王二");
+        上面这段代码使用了 new 关键字来实例化一个字符串对象，
+        那么这时候，就会调用 String 类的构造方法对 cmower 进行实例化。
 	
-	
-	
-	
+29>类加载器
+    
+        (1)启动类加载器（Bootstrap Class-Loader），加载 jre/lib 包下面的 jar 文件，比如说常见的 rt.jar。
+        (2)扩展类加载器（Extension or Ext Class-Loader），加载 jre/lib/ext 包下面的 jar 文件。
+        (3)应用类加载器（Application or App Clas-Loader），根据程序的类路径（classpath）来加载 Java 类。
+	    
+        来来来，通过一段简单的代码了解下。
+        public class Test {
+            public static void main(String[] args) {
+                //com.example.whdemo.Panda
+                ClassLoader loader = Panda.class.getClassLoader();
+                while (loader != null) {
+                    System.out.println(loader.toString());
+                    loader = loader.getParent();
+                }
+            }
+        }
+        每个 Java 类都维护着一个指向定义它的类加载器的引用，通过 类名.class.getClassLoader() 可以获取到此引用；
+        然后通过 loader.getParent() 可以获取类加载器的上层类加载器。
+        
+        这段代码的输出结果如下：
+        
+        sun.misc.Launcher$AppClassLoader@18b4aac2
+        sun.misc.Launcher$ExtClassLoader@5b6f7412
+        第一行输出为 Panda 的类加载器，即应用类加载器，它是 sun.misc.Launcher$AppClassLoader 类的实例；
+        第二行输出为扩展类加载器，是 sun.misc.Launcher$ExtClassLoader 类的实例。那启动类加载器呢？
+        按理说，扩展类加载器的上层类加载器是启动类加载器，但在我这个版本的 JDK 中， 
+        扩展类加载器的 getParent() 返回 null。所以没有输出。
 	
 	
 	
