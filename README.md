@@ -1,46 +1,55 @@
-1>Redis本质上是一个Key-Value类型的内存数据库，很像memcached，整个数据库统加载在内存当中进行操作，
-定期通过异步操作把数据库数据flush到硬盘上进行保存。因为是纯内存操作，Redis的性能非常出色，每秒可以处理超过 10万次读写操作，
-是已知性能最快的Key-Value DB。 Redis的出色之处不仅仅是性能，Redis最大的魅力是支持保存多种数据结构，此外单个value的最大限制是1GB，
-不像 memcached只能保存1MB的数据，因此Redis可以用来实现很多有用的功能，比方说用他的List来做FIFO双向链表，实现一个轻量级的高性 能消息队列服务，
-用他的Set可以做高性能的tag系统等等。另外Redis也可以对存入的Key-Value设置expire时间，因此也可以被当作一 个功能加强版的memcached来用。
-Redis的主要缺点是数据库容量受到物理内存的限制，不能用作海量数据的高性能读写，因此Redis适合的场景主要局限在较小数据量的高性能操作和运算上。
+1>Redis
+
+	本质上是一个Key-Value类型的内存数据库，很像memcached，整个数据库统加载在内存当中进行操作，定期通过
+    异步操作把数据库数据flush到硬盘上进行保存。因为是纯内存操作，Redis的性能非常出色，每秒可以处理超过 
+    10万次读写操作， 是已知性能最快的Key-Value DB。 Redis的出色之处不仅仅是性能，Redis最大的魅力是支持
+    保存多种数据结构，此外单个value的最大限制是1GB，不像 memcached只能保存1MB的数据，因此Redis可以用
+    来实现很多有用的功能，比方说用他的List来做FIFO双向链表，实现一个轻量级的高性 能消息队列服务，
+    用他的Set可以做高性能的tag系统等等。另外Redis也可以对存入的Key-Value设置expire时间，因此也可
+    以被当作一 个功能加强版的memcached来用。Redis的主要缺点是数据库容量受到物理内存的限制，
+    不能用作海量数据的高性能读写，因此Redis适合的场景主要局限在较小数据量的高性能操作和运算上。
 
 redis常用命令:
 https://www.cnblogs.com/cxxjohnson/p/9072383.html
 
 2>redis相比memcached有哪些优势
-① memcached所有的值均是简单的字符串，redis作为其替代者，支持更为丰富的数据类型
-② redis的速度比memcached快很多
-③ redis可以持久化其数据
+
+	① memcached所有的值均是简单的字符串，redis作为其替代者，支持更为丰富的数据类型
+    ② redis的速度比memcached快很多
+    ③ redis可以持久化其数据
 
 3>redis的数据类型,应用场景
-Redis支持5种数据类型：string（字符串）,hash（哈希）,list（列表）,set（集合）及zset(sorted set：有序集合)。
-① string : 常规key-value缓存应用。常规计数: 微博数,粉丝数。
-② hash : 存储用户信息，商品信息，订单信息
-③ list : 好友列表，粉丝列表，消息队列，最新消息排行等。
-④ set : 共同好友、共同兴趣、分类标签
-⑤ sorted set : 网站排行榜
-参考链接 : https://blog.csdn.net/hi_alan/article/details/86530769
+
+	Redis支持5种数据类型：string（字符串）,hash（哈希）,list（列表）,set（集合）及zset(sorted set：有序集合)。
+    ① string : 常规key-value缓存应用。常规计数: 微博数,粉丝数。
+    ② hash : 存储用户信息，商品信息，订单信息
+    ③ list : 好友列表，粉丝列表，消息队列，最新消息排行等。
+    ④ set : 共同好友、共同兴趣、分类标签
+    ⑤ sorted set : 网站排行榜
+    参考链接 : https://blog.csdn.net/hi_alan/article/details/86530769
 
 4>redis淘汰策略
-① volatile-lru ：从已设置过期时间的数据集（server.db[i].expires）中挑选最近最少使用的数据淘汰
-② volatile-ttl ：从已设置过期时间的数据集中挑选将要过期的数据淘汰
-③ volatile-random ：从已设置过期时间的数据集中任意选择数据淘汰
-④ allkeys-lru ：从数据集（server.db[i].dict）中挑选最近最少使用的数据淘汰
-⑤ allkeys-random ：从数据集中任意选择数据淘汰
-⑥ no-enviction（驱逐）：禁止驱逐数据,这也是默认策略。意思是当内存不足以容纳新入数据时，新写入操作就会报错，
-请求可以继续进行，线上任务也不能持续进行，采用no-enviction策略可以保证数据不被丢失。
+
+	① volatile-lru ：从已设置过期时间的数据集（server.db[i].expires）中挑选最近最少使用的数据淘汰
+    ② volatile-ttl ：从已设置过期时间的数据集中挑选将要过期的数据淘汰
+    ③ volatile-random ：从已设置过期时间的数据集中任意选择数据淘汰
+    ④ allkeys-lru ：从数据集（server.db[i].dict）中挑选最近最少使用的数据淘汰
+    ⑤ allkeys-random ：从数据集中任意选择数据淘汰
+    ⑥ no-enviction（驱逐）：禁止驱逐数据,这也是默认策略。意思是当内存不足以容纳新入数据时，
+    新写入操作就会报错，请求可以继续进行，线上任务也不能持续进行，采用no-enviction策略可以保证数据不被丢失。
 
 5>Redis key的过期时间和永久有效分别怎么设置
 EXPIRE和PERSIST命令。
 
 6>Redis 持久化方式
-① RDB持久化方式能够在指定的时间间隔能对你的数据进行快照存储.
-② AOF持久化方式记录每次对服务器写的操作,当服务器重启的时候会重新执行这些命令来恢复原始的数据,
-AOF命令以redis协议追加保存每次写的操作到文件末尾.Redis还能对AOF文件进行后台重写,使得AOF文件的体积不至于过大.
-如果你只希望你的数据在服务器运行的时候存在,你也可以不使用任何持久化方式.
-你也可以同时开启两种持久化方式, 在这种情况下, 当redis重启的时候会优先载入AOF文件来恢复原始的数据,
-因为在通常情况下AOF文件保存的数据集要比RDB文件保存的数据集要完整.
+
+	① RDB持久化方式能够在指定的时间间隔能对你的数据进行快照存储.
+
+    ② AOF持久化方式记录每次对服务器写的操作,当服务器重启的时候会重新执行这些命令来恢复原始的数据,
+        AOF命令以redis协议追加保存每次写的操作到文件末尾.Redis还能对AOF文件进行后台重写,使得AOF文件的体积不至于过大.
+        如果你只希望你的数据在服务器运行的时候存在,你也可以不使用任何持久化方式.
+        你也可以同时开启两种持久化方式, 在这种情况下, 当redis重启的时候会优先载入AOF文件来恢复原始的数据,
+        因为在通常情况下AOF文件保存的数据集要比RDB文件保存的数据集要完整.
 
 redis问题补充:
 Redis缓存雪崩、缓存穿透、热点Key
@@ -65,18 +74,20 @@ Redis缓存雪崩、缓存穿透、热点Key
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 7>Spring支持的几种bean的作用域
-① singleton : bean在每个Springioc容器中只有一个实例。
-② prototype ：一个bean的定义可以有多个实例。
-③ request ：每次http请求都会创建一个bean，该作用域仅在基于web的SpringApplicationContext情形下有效。
-④ session ：在一个HTTPSession中，一个bean定义对应一个实例。该作用域仅在基于web的SpringApplicationContext情形下有效。
-⑤ global-session ：在一个全局的HTTPSession中，一个bean定义对应一个实例。该作用域仅在基于web的SpringApplicationContext情形下有效。
+
+	① singleton : bean在每个Springioc容器中只有一个实例。
+    ② prototype ：一个bean的定义可以有多个实例。
+    ③ request ：每次http请求都会创建一个bean，该作用域仅在基于web的SpringApplicationContext情形下有效。
+    ④ session ：在一个HTTPSession中，一个bean定义对应一个实例。该作用域仅在基于web的SpringApplicationContext情形下有效。
+    ⑤ global-session ：在一个全局的HTTPSession中，一个bean定义对应一个实例。该作用域仅在基于web的SpringApplicationContext情形下有效。
 
 8>Spring框架中的单例bean是线程安全的吗
 不，Spring框架中的单例bean不是线程安全的。
 
 9>java线程池大小设置多少合适
-最佳线程数目 = （线程等待时间与线程CPU时间之比 + 1）* CPU数目
-线程等待时间所占比例越高，需要越多线程。线程CPU时间所占比例越高，需要越少线程。
+
+	最佳线程数目 = （线程等待时间与线程CPU时间之比 + 1）* CPU数目
+    线程等待时间所占比例越高，需要越多线程。线程CPU时间所占比例越高，需要越少线程。
 
 	https://blog.csdn.net/lieyanhaipo/article/details/87877853
 
@@ -121,18 +132,22 @@ https://blog.csdn.net/ye17186/article/details/89467919
 		该策略下，抛弃进入队列最早的那个任务，然后尝试把这次拒绝的任务放入队列
 
 11>常见线程池
-① newSingleThreadExecutor
-单个线程的线程池，即线程池中每次只有一个线程工作，单线程串行执行任务
-② newFixedThreadExecutor(n)
-固定数量的线程池，没提交一个任务就是一个线程，直到达到线程池的最大数量，然后后面进入等待队列直到前面的任务完成才继续执行
-③ newCacheThreadExecutor（推荐使用）
-可缓存线程池，当线程池大小超过了处理任务所需的线程，那么就会回收部分空闲（一般是60秒无执行）的线程，当有任务来时，又智能的添加新线程来执行。
-④ newScheduleThreadExecutor
-大小无限制的线程池，支持定时和周期性的执行线程
+
+	① newSingleThreadExecutor
+        单个线程的线程池，即线程池中每次只有一个线程工作，单线程串行执行任务
+    ② newFixedThreadExecutor(n)
+        固定数量的线程池，没提交一个任务就是一个线程，直到达到线程池的最大数量，
+        然后后面进入等待队列直到前面的任务完成才继续执行
+    ③ newCacheThreadExecutor（推荐使用）
+        可缓存线程池，当线程池大小超过了处理任务所需的线程，那么就会回收部分空闲
+        （一般是60秒无执行）的线程，当有任务来时，又智能的添加新线程来执行。
+    ④ newScheduleThreadExecutor
+        大小无限制的线程池，支持定时和周期性的执行线程
 
 12>创建线程的主要方式
-①继承Thread类
-通过继承(extends)Thread并且重写其run()，run方法中即线程执行任务。创建后的子类通过调用 start() 方法即可执行线程方法。
+
+	①继承Thread类
+    通过继承(extends)Thread并且重写其run()，run方法中即线程执行任务。创建后的子类通过调用 start() 方法即可执行线程方法。
 
 	②通过Runnable接口创建线程类
 	该方法需要先 定义一个类实现(implements)Runnable接口，并重写该接口的 run() 方法，
@@ -142,11 +157,11 @@ https://blog.csdn.net/ye17186/article/details/89467919
 	③使用Callable和Future创建线程
 	从继承Thread类和实现Runnable接口可以看出，上述两种方法都不能有返回值，且不能声明抛出异常。而Callable接口则实现了此两点，
 	Callable接口如同Runable接口的升级版，其提供的call()方法将作为线程的执行体，同时允许有返回值。
-但是Callable对象不能直接作为Thread对象的target，因为Callable接口是 Java 5 新增的接口，
-不是Runnable接口的子接口。对于这个问题的解决方案，就引入 Future接口，
-此接口可以接受call() 的返回值，RunnableFuture接口是Future接口和Runnable接口的子接口，
-可以作为Thread对象的target 。并且， Future 接口提供了一个实现类：FutureTask 。
-FutureTask实现了RunnableFuture接口，可以作为 Thread对象的target。
+    但是Callable对象不能直接作为Thread对象的target，因为Callable接口是 Java 5 新增的接口，
+    不是Runnable接口的子接口。对于这个问题的解决方案，就引入 Future接口，
+    此接口可以接受call() 的返回值，RunnableFuture接口是Future接口和Runnable接口的子接口，
+    可以作为Thread对象的target 。并且， Future 接口提供了一个实现类：FutureTask 。
+    FutureTask实现了RunnableFuture接口，可以作为 Thread对象的target。
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 																									INTERVIEW SUMMARY																												
@@ -198,13 +213,21 @@ max.poll.records
 
 
 3>ThreadLocal
-作用:线程安全
-应用场景:数据库连接,session管理
-ThreadLocal是线程本地存储，在每个线程中都创建了一个ThreadLocalMap对象，每个线程可以访问自己内部ThreadLocalMap对象内的value。
-①实际的通过ThreadLocal创建的副本是存储在每个线程自己的threadLocals中的；
-②为何threadLocals的类型ThreadLocalMap的键值为ThreadLocal对象，因为每个线程中可有多个threadLocal变量，就像上面代码中的longLocal和stringLocal；
-③在进行get之前，必须先set，否则会报空指针异常；如果想在get之前不需要调用set就能正常访问的话，必须重写initialValue()方法。
-④ThreadLocal不支持继承性
+
+	作用:线程安全
+    应用场景:数据库连接,session管理
+    ThreadLocal是线程本地存储，在每个线程中都创建了一个ThreadLocalMap对象，
+    每个线程可以访问自己内部ThreadLocalMap对象内的value。
+
+    ①实际的通过ThreadLocal创建的副本是存储在每个线程自己的threadLocals中的；
+
+    ②为何threadLocals的类型ThreadLocalMap的键值为ThreadLocal对象，因为每个线程中可有多个threadLocal变量，
+        就像上面代码中的longLocal和stringLocal；
+
+    ③在进行get之前，必须先set，否则会报空指针异常；如果想在get之前不需要调用set就能正常访问的话，
+        必须重写initialValue()方法。
+
+    ④ThreadLocal不支持继承性
 
 4>
 ①String类被final关键字修饰，意味着String类不能被继承，并且它的成员方法都默认为final方法；字符串一旦创建就不能再修改。
@@ -286,32 +309,36 @@ CGLIB是针对类实现代理，主要是对指定的类生成一个子类，覆
 JDK Proxy里是InvocationHandler，而cglib里一般就是MethodInterceptor，所有被代理的方法的调用是通过它们的invoke和intercept方法进行转接的，AOP的逻辑也是在这一层实现。
 
 8>synchronized跟lock的区别
-①lock是一个接口，而synchronized是java的一个关键字
-②异常是否释放锁：
-synchronized在发生异常时候会自动释放占有的锁，因此不会出现死锁；
-而lock发生异常时候，不会主动释放占有的锁，必须手动unlock来释放锁，
-可能引起死锁的发生。（所以最好将同步代码块用try catch包起来，finally中写入unlock，避免死锁的发生。）
-③是否响应中断:
-lock等待锁过程中可以用interrupt来中断等待，而synchronized只能等待锁的释放，不能响应中断；
-④是否知道获取锁
-Lock可以通过trylock来知道有没有获取锁，而synchronized不能；
+   
+    ①lock是一个接口，而synchronized是java的一个关键字
+    ②异常是否释放锁：
+        synchronized在发生异常时候会自动释放占有的锁，因此不会出现死锁；
+        而lock发生异常时候，不会主动释放占有的锁，必须手动unlock来释放锁，
+        可能引起死锁的发生。（所以最好将同步代码块用try catch包起来，finally中写入unlock，避免死锁的发生。）
+    ③是否响应中断:
+        lock等待锁过程中可以用interrupt来中断等待，而synchronized只能等待锁的释放，不能响应中断；
+    ④是否知道获取锁
+        Lock可以通过trylock来知道有没有获取锁，而synchronized不能；
 
 9>	String  StringBuild  StringBuffer
-String:对String对象的任何改变都不影响到原对象，相关的任何change操作都会生成新的对象
-执行效率:StringBuilder > StringBuffer > String
-当字符串相加操作或者改动较少的情况下，建议使用 String str="hello"这种形式；
-当字符串相加操作较多的情况下，建议使用StringBuilder，如果采用了多线程，则使用StringBuffer。
+   
+    String:对String对象的任何改变都不影响到原对象，相关的任何change操作都会生成新的对象
+    执行效率:StringBuilder > StringBuffer > String
+    当字符串相加操作或者改动较少的情况下，建议使用 String str="hello"这种形式；
+    当字符串相加操作较多的情况下，建议使用StringBuilder，如果采用了多线程，则使用StringBuffer。
 
 10>什么是线程:
-线程是操作系统能够进行运算调度的最小单位，它被包含在进程之中，是进程中的实际运作单位，可以使用多线程对进行运算提速。
+	
+    线程是操作系统能够进行运算调度的最小单位，它被包含在进程之中，是进程中的实际运作单位，可以使用多线程对进行运算提速。
 
 11>JVM内存结构主要有三大块：堆内存、方法区和栈。
-①java堆（Java Heap）:可通过参数 -Xms 和-Xmx设置
-Java堆是被所有线程共享,是Java虚拟机所管理的内存中最大的一块 Java堆在虚拟机启动时创建
-Java堆唯一的目的是存放对象实例，几乎所有的对象实例和数组都在这里
-Java堆为了便于更好的回收和分配内存，可以细分为：新生代和老年代；再细致一点的有Eden空间、From Survivor空间、To Survivor区
-新生代：包括Eden区、From Survivor区、To Survivor区，系统默认大小8:1:1。
-老年代：在年轻代中经历了N次垃圾回收后仍然存活的对象，就会被放到年老代中。因此，可以认为年老代中存放的都是一些生命周期较长的对象。
+	
+    ①java堆（Java Heap）:可通过参数 -Xms 和-Xmx设置
+    Java堆是被所有线程共享,是Java虚拟机所管理的内存中最大的一块 Java堆在虚拟机启动时创建
+    Java堆唯一的目的是存放对象实例，几乎所有的对象实例和数组都在这里
+    Java堆为了便于更好的回收和分配内存，可以细分为：新生代和老年代；再细致一点的有Eden空间、From Survivor空间、To Survivor区
+    新生代：包括Eden区、From Survivor区、To Survivor区，系统默认大小8:1:1。
+    老年代：在年轻代中经历了N次垃圾回收后仍然存活的对象，就会被放到年老代中。因此，可以认为年老代中存放的都是一些生命周期较长的对象。
 
 	②java虚拟机栈(stack):可通过参数 栈帧是方法运行期的基础数据结构栈容量可由-Xss设置
 	Java虚拟机栈是线程私有的，它的生命周期与线程相同。
@@ -335,11 +362,12 @@ Java堆为了便于更好的回收和分配内存，可以细分为：新生代�
 		ParallelOld：
 	G1（Garbage First）：G1收集器是JDK9的默认垃圾收集器，而且不再区分年轻代和老年代进行回收。
 12>JDBC执行流程
-①加载驱动
-//加载MySql驱动
-Class.forName("com.mysql.jdbc.Driver")
-//加载Oracle驱动
-Class.forName("oracle.jdbc.driver.OracleDriver")
+	
+    ①加载驱动
+    //加载MySql驱动
+    Class.forName("com.mysql.jdbc.Driver")
+    //加载Oracle驱动
+    Class.forName("oracle.jdbc.driver.OracleDriver")
 
 	②获取数据库连接
 	DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/imooc", "username", "password");
@@ -646,10 +674,19 @@ log-querise-not-using-indexes=ON;
         JAVA反射机制是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；
         对于任意一个对象，都能够调用它的任意方法和属性；
         这种动态获取信息以及动态调用对象方法的功能称为java语言的反射机制。
-	
-	
-	
-	
+
+31>线程池
+
+        <1>newCacheThreadPool()：可缓存线程池，先查看池中有没有以前建立的线程，如果有，就直接使用。如果没有，
+            就建一个新的线程加入池中，缓存型池子通常用于执行一些生存期很短的异步型任务
+        <2>newFixedThreadPool(int n)：创建一个可重用固定个数的线程池，以共享的无界队列方式来运行这些线程。
+	    <3>newScheduledThreadPool(int n)：创建一个定长线程池，支持定时及周期性任务执行
+        <4>newSingleThreadExecutor()：创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，
+            保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行。
+
+31>spring bean的生命周期
+
+        待续、、、
 	
 	
 	
