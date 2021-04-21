@@ -675,18 +675,11 @@ log-querise-not-using-indexes=ON;
         对于任意一个对象，都能够调用它的任意方法和属性；
         这种动态获取信息以及动态调用对象方法的功能称为java语言的反射机制。
 
-31>线程池
-
-        <1>newCacheThreadPool()：可缓存线程池，先查看池中有没有以前建立的线程，如果有，就直接使用。如果没有，
-            就建一个新的线程加入池中，缓存型池子通常用于执行一些生存期很短的异步型任务
-        <2>newFixedThreadPool(int n)：创建一个可重用固定个数的线程池，以共享的无界队列方式来运行这些线程。
-	    <3>newScheduledThreadPool(int n)：创建一个定长线程池，支持定时及周期性任务执行
-        <4>newSingleThreadExecutor()：创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，
-            保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行。
-
 31>spring bean的生命周期
 
-        待续、、、
+        概述：通过构造方法或工厂方法创建bean对象——>为bean属性赋值——>调用 bean 的初始化方法，
+                即init-method指定方法——>bean实例化完毕，
+                可以使用——>容器关闭, 调用 bean 的销毁方法，即destroy-method指定方法。
 	
 	
 	
