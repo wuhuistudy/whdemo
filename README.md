@@ -680,12 +680,31 @@ log-querise-not-using-indexes=ON;
         概述：通过构造方法或工厂方法创建bean对象——>为bean属性赋值——>调用 bean 的初始化方法，
                 即init-method指定方法——>bean实例化完毕，
                 可以使用——>容器关闭, 调用 bean 的销毁方法，即destroy-method指定方法。
-	
-	
-	
-	
-	
-	
+
+32>目前java中可作为GC Root的对象有
+
+        1，虚拟机栈中引用的对象（本地变量表）
+
+        2，方法区中静态属性引用的对象
+        
+        3，方法区中常量引用的对象
+        
+        4，本地方法栈中引用的对象（Native Object）	
+
+33>多线程join的作用
+
+        示例：
+        public static void main(String[] args) throws InterruptedException
+        {
+            System.out.println("main start");
+    
+            Thread t1 = new Thread(new Worker("thread-1"));
+            t1.start();
+            t1.join();
+            System.out.println("main end");
+        }
+	main线程要等到t1线程运行结束后，才会输出“main end”。如果不加t1.join(),
+    main线程和t1线程是并行的。而加上t1.join(),程序就变成是顺序执行了
 
 
 
