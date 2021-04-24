@@ -707,4 +707,13 @@ log-querise-not-using-indexes=ON;
     main线程和t1线程是并行的。而加上t1.join(),程序就变成是顺序执行了
 
 
+34>JDK动态代理与CGLIB动态代理
+
+        JDK1.8下JDK动态代理要优于CGLIB动态代理
+        参考：ProxyPerformanceTest类的验证
+
+        Spring同时使用了两种动态代理机制，依据如下：
+        ①当Bean实现接口时，Spring就会用JDK的动态代理
+        ②当Bean没有实现接口时，Spring使用CGlib是实现
+        ③可以强制使用CGlib（@EnableAspectJAutoProxy(proxyTargetClass = true)）
 
