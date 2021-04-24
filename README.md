@@ -368,10 +368,12 @@ redis问题补充:Redis缓存雪崩、缓存穿透、热点Key
             复制算法
             单线程收集，进行垃圾收集时，必须暂停所有工作线程,只会使用一个线程进行垃圾收集工作，
             GC 线程工作时，其它所有线程都将停止工作。
+
 		2>ParNew 
             -XX:+UseParNewGC
             复制算法
             多线程收集，其余的行为、特点和Serial收集器一样
+
 		3>Parallel Scavenge 
             -XX:+UseParallelGC
             复制算法
@@ -382,9 +384,11 @@ redis问题补充:Redis缓存雪崩、缓存穿透、热点Key
 		1>serialOld
             -XX:+UseSerialOldGC
             标记-整理算法
+
 		2>ParallelOld
             -XX:+UseParallelOldGC
             标记-整理算法
+
 		3>CMS：CMS收集器是以获取最短停顿时间为目标的收集器
             -XX:+UseConcMarkSweepGC
             标记-清除算法
@@ -396,6 +400,7 @@ redis问题补充:Redis缓存雪崩、缓存穿透、热点Key
         G1收集器是JDK9的默认垃圾收集器，而且不再区分年轻代和老年代进行回收。
         -XX:+UseG1GC
         复制 + 标记 - 整理算法
+
     新生代一般使用的复制算法，优先是效率高，缺点是内存利用率低；
     老生代一般使用标记-清除/标记-整理算法。
     
