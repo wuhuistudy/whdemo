@@ -353,14 +353,43 @@ JDK Proxy里是InvocationHandler，而cglib里一般就是MethodInterceptor，�
 	
 	垃圾收集器：
 	新生代：
-		serial 单线程收集，进行垃圾收集时，必须暂停所有工作线程
-		ParNew 多线程收集，其余的行为、特点和Serial收集器一样
-		Parallel Scavenge 比起关注用户线程停顿时间，更关注系统的吞吐量（适合后台运算，不需要太多交互运算的场景）
+		1>serial 
+            -XX:+UseSerialGC
+            复制算法
+            单线程收集，进行垃圾收集时，必须暂停所有工作线程,只会使用一个线程进行垃圾收集工作，
+            GC 线程工作时，其它所有线程都将停止工作。
+		2>ParNew 
+            -XX:+UseParNewGC
+            复制算法
+            多线程收集，其余的行为、特点和Serial收集器一样
+		3>Parallel Scavenge 
+            -XX:+UseParallelGC
+            复制算法
+            多线程的收集器，其它收集器目标是尽可能缩短垃圾收集时用户线程的停顿时间，
+            而它的目标是提高吞吐量（吞吐量 = 运行用户程序的时间 / （运行用户程序的时间 + 垃圾收集的时间））。
+            
 	老年代：
-		CMS：CMS收集器是以获取最短停顿时间为目标的收集器
-		serialOld：
-		ParallelOld：
-	G1（Garbage First）：G1收集器是JDK9的默认垃圾收集器，而且不再区分年轻代和老年代进行回收。
+		1>serialOld
+            -XX:+UseSerialOldGC
+            标记-整理算法
+		2>ParallelOld
+            -XX:+UseParallelOldGC
+            标记-整理算法
+		3>CMS：CMS收集器是以获取最短停顿时间为目标的收集器
+            -XX:+UseConcMarkSweepGC
+            标记-清除算法
+            缺点：   吞吐量低
+                    无法处理浮动垃圾
+                    标记 - 清除算法带来的内存空间碎片问题
+
+	G1（Garbage First）：
+        G1收集器是JDK9的默认垃圾收集器，而且不再区分年轻代和老年代进行回收。
+        -XX:+UseG1GC
+        复制 + 标记 - 整理算法
+    新生代一般使用的复制算法，优先是效率高，缺点是内存利用率低；
+    老生代一般使用标记-清除/标记-整理算法。
+    
+
 12>JDBC执行流程
 	
     ①加载驱动
@@ -717,3 +746,32 @@ log-querise-not-using-indexes=ON;
         ②当Bean没有实现接口时，Spring使用CGlib是实现
         ③可以强制使用CGlib（@EnableAspectJAutoProxy(proxyTargetClass = true)）
 
+35>spring事务失效的几种常见情况
+
+        1>spring事务的注解只能放在public修饰的方法上才会生效，放在非public修饰的方法上事务无法生效，但不会报错。
+        2>如果采用spring+spring mvc，则context:component-scan重复扫描问题可能会引起事务失败。
+            如果spring和mvc的配置文件中都扫描了service层，那么事务就会失效。
+            原因：按照spring加载配置文件的顺序来说，先加载springmvc的配置文件，然后再加载spring的配置文件，一般
+            事务是配置在spring的配置文件中的，但要是在加载springmvc配置是把service也加载进去了，但是此时事务是
+            还没加载的，就会导致后面的事务无法成功注入到service中。
+        3>如使用mysql且引擎是MyISAM，则事务会不起作用，原因是MyISAM不支持事务，可以改成InnoDB引擎
+        4> 在业务代码中如果抛出RuntimeException异常，事务回滚；但是抛出Exception，事务不回滚；
+             解决方法@Transactional改为@Transactional(rollbackFor = Exception.class)
+        5>如果在加有事务的方法内，使用了try...catch..语句块对异常进行了捕获，而catch语句块没有
+            throw  new RuntimeExecption异常，事务也不会回滚
+        6>同一个类之中，方法互相调用，切面无效 ，而不仅仅是事务。这里事务之所以无效，
+            是因为spring的事务是通过aop实现的。
+
+36>spring bean的循环依赖怎么解决
+        
+        通过三级缓存来解决：
+        这个方法是Spring解决循环依赖的关键方法，在这个方法中，使用了三层列表来查询的方式，这三层列表分别是：
+        singletonObjects
+
+        earlySingletonObjects
+        
+        singletonFactories
+
+37>设计模式
+
+        通过三级缓存来解决：
