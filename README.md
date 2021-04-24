@@ -9,8 +9,8 @@
     以被当作一 个功能加强版的memcached来用。Redis的主要缺点是数据库容量受到物理内存的限制，
     不能用作海量数据的高性能读写，因此Redis适合的场景主要局限在较小数据量的高性能操作和运算上。
 
-redis常用命令:
-https://www.cnblogs.com/cxxjohnson/p/9072383.html
+	redis常用命令:
+    https://www.cnblogs.com/cxxjohnson/p/9072383.html
 
 2>redis相比memcached有哪些优势
 
@@ -39,7 +39,8 @@ https://www.cnblogs.com/cxxjohnson/p/9072383.html
     新写入操作就会报错，请求可以继续进行，线上任务也不能持续进行，采用no-enviction策略可以保证数据不被丢失。
 
 5>Redis key的过期时间和永久有效分别怎么设置
-EXPIRE和PERSIST命令。
+
+	EXPIRE和PERSIST命令。
 
 6>Redis 持久化方式
 
@@ -51,8 +52,7 @@ EXPIRE和PERSIST命令。
         你也可以同时开启两种持久化方式, 在这种情况下, 当redis重启的时候会优先载入AOF文件来恢复原始的数据,
         因为在通常情况下AOF文件保存的数据集要比RDB文件保存的数据集要完整.
 
-redis问题补充:
-Redis缓存雪崩、缓存穿透、热点Key
+redis问题补充:Redis缓存雪崩、缓存穿透、热点Key
 
 	① 缓存穿透
 	缓存系统，按照KEY去查询VALUE,当KEY对应的VALUE一定不存在的时候并对KEY并发请求量很大的时候，就会对后端造成很大的压力。
@@ -82,7 +82,8 @@ Redis缓存雪崩、缓存穿透、热点Key
     ⑤ global-session ：在一个全局的HTTPSession中，一个bean定义对应一个实例。该作用域仅在基于web的SpringApplicationContext情形下有效。
 
 8>Spring框架中的单例bean是线程安全的吗
-不，Spring框架中的单例bean不是线程安全的。
+
+	不，Spring框架中的单例bean不是线程安全的。
 
 9>java线程池大小设置多少合适
 
@@ -92,7 +93,8 @@ Redis缓存雪崩、缓存穿透、热点Key
 	https://blog.csdn.net/lieyanhaipo/article/details/87877853
 
 10>Java线程池七个参数详解
-https://blog.csdn.net/ye17186/article/details/89467919
+
+	https://blog.csdn.net/ye17186/article/details/89467919
 
 	分别是corePoolSize、maximumPoolSize、keepAliveTime、unit、workQueue、threadFactory、handler
 	① corePoolSize 线程池核心线程大小
@@ -167,14 +169,15 @@ https://blog.csdn.net/ye17186/article/details/89467919
 																									INTERVIEW SUMMARY																												
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 1>kafka重复消费,堆积等问题
-原因分析
-Kafka消费者有两个配置参数：
-max.poll.interval.ms
-两次poll操作允许的最大时间间隔。单位毫秒。默认值300000（5分钟）。
-两次poll超过此时间间隔，Kafka服务端会进行rebalance操作，导致客户端连接失效，无法提交offset信息，从而引发重复消费。
-max.poll.records
-一次poll操作获取的消息数量。默认值50。
-如果每条消息处理时间超过60秒，那么一批消息处理时间将超过5分钟，从而引发poll超时，最终导致重复消费。
+
+	原因分析
+    Kafka消费者有两个配置参数：
+    max.poll.interval.ms
+    两次poll操作允许的最大时间间隔。单位毫秒。默认值300000（5分钟）。
+    两次poll超过此时间间隔，Kafka服务端会进行rebalance操作，导致客户端连接失效，无法提交offset信息，从而引发重复消费。
+    max.poll.records
+    一次poll操作获取的消息数量。默认值50。
+    如果每条消息处理时间超过60秒，那么一批消息处理时间将超过5分钟，从而引发poll超时，最终导致重复消费。
 
 	消息重复消费和消息丢包的解决办法
 	保证不丢失消息：生产者（ack=all 代表至少成功发送一次)     重试机制
@@ -229,22 +232,27 @@ max.poll.records
 
     ④ThreadLocal不支持继承性
 
-4>
-①String类被final关键字修饰，意味着String类不能被继承，并且它的成员方法都默认为final方法；字符串一旦创建就不能再修改。
-②String类实现了Serializable、CharSequence、 Comparable接口。
-③String实例的值是通过字符数组实现字符串存储的。
+4>String
+
+	①String类被final关键字修饰，意味着String类不能被继承，并且它的成员方法都默认为final方法；字符串一旦创建就不能再修改。
+    ②String类实现了Serializable、CharSequence、 Comparable接口。
+    ③String实例的值是通过字符数组实现字符串存储的。
 
 
 5>结装箱和拆箱的实现过程：
-装箱过程是通过调用包装器的valueOf方法实现的，而拆箱过程是通过引用类型调用xxxValue实现的。
+
+	装箱过程是通过调用包装器的valueOf方法实现的，而拆箱过程是通过引用类型调用xxxValue实现的。
 
 6>AOP
-面向切面编程
-通俗理解:使用动态代理的方式在执行方法前后或者出现异常的时候做加入相关的逻辑
+
+	面向切面编程
+
+	通俗理解:使用动态代理的方式在执行方法前后或者出现异常的时候做加入相关的逻辑
 
 
 7>JDK动态代理跟CGLIB动态代理
-JDK动态代理是对实现了接口的类去生成代理，而不能针对类
+
+	JDK动态代理是对实现了接口的类去生成代理，而不能针对类
 
 	//用户管理接口
 	public interface UserManager
@@ -305,8 +313,10 @@ JDK动态代理是对实现了接口的类去生成代理，而不能针对类
 		}
 	}
 
-CGLIB是针对类实现代理，主要是对指定的类生成一个子类，覆盖其中的方法（继承）
-JDK Proxy里是InvocationHandler，而cglib里一般就是MethodInterceptor，所有被代理的方法的调用是通过它们的invoke和intercept方法进行转接的，AOP的逻辑也是在这一层实现。
+    CGLIB是针对类实现代理，主要是对指定的类生成一个子类，覆盖其中的方法（继承）
+
+    JDK Proxy里是InvocationHandler，而cglib里一般就是MethodInterceptor，所有被代理的方法的调用是通过它们的invoke
+        和intercept方法进行转接的，AOP的逻辑也是在这一层实现。
 
 8>synchronized跟lock的区别
    
@@ -416,8 +426,10 @@ JDK Proxy里是InvocationHandler，而cglib里一般就是MethodInterceptor，�
 
 
 13>3次握手的过程
-TCP握手协议 ：在TCP/IP协议中,TCP协议提供可靠的连接服务,采用三次握手建立一个连接。
-SYN：同步序列编号(Synchronize Sequence Numbers)
+
+	TCP握手协议 ：在TCP/IP协议中,TCP协议提供可靠的连接服务,采用三次握手建立一个连接。
+
+	SYN：同步序列编号(Synchronize Sequence Numbers)
 
 	一个SYN包就是仅SYN标记设为1的TCP包;
 	ACK包就是仅ACK 标记设为1的TCP包;
@@ -436,7 +448,8 @@ SYN：同步序列编号(Synchronize Sequence Numbers)
 	③第三次握手：客户端A收到服务器B的SYN＋ACK包，向服务器B发送确认包ACK(ACK=k+1)，此包发送完毕，客户端A和服务器B进入ESTABLISHED状态，完成三次握手。
 
 14>4次挥手过程
-四次挥手用来关闭已建立的TCP连接.
+
+	四次挥手用来关闭已建立的TCP连接.
 
 	(客户端A) --> ACK/FIN --> (服务器B)
 	①第一次挥手:客户端A发送一个FIN，用来关闭客户A到服务器B的数据传送。
@@ -451,28 +464,32 @@ SYN：同步序列编号(Synchronize Sequence Numbers)
 	④第四次挥手:客户端A发回ACK报文确认，并将确认序号设置为收到序号加1。
 
 15>事务四大特性(ACID)
-原子性(Atomicity):事务开始后所有操作要么全部成功，要么全部失败，不可能停滞在中间某个环节;
-一致性(Consistency):一个事务执行之前和执行之后都必须处于一致性状态;假设用户A和用户B两者的钱加起来一共是5000，那么不管A和B之间如何转账，转几次账，事务结束后两个用户的钱相加起来应该还是5000，这就是事务的一致性
-隔离性(Isolation):指当多个用户并发访问数据库时，数据库为每一个用户开启的事务不能被其他的事务操作所干扰，多个并发事务之间要相互隔离。同一时间，只允许一个事务请求同一组数据。不同的事务彼此之间没有干扰。
-持久性(Durability):一个事务一旦被提交，则对数据库的所有更新将被保存到数据库中，不能回滚。
+        
+	    原子性(Atomicity):事务开始后所有操作要么全部成功，要么全部失败，不可能停滞在中间某个环节;
+        一致性(Consistency):一个事务执行之前和执行之后都必须处于一致性状态;假设用户A和用户B两者的钱加起来一共是5000，那么不管A和B之间如何转账，转几次账，事务结束后两个用户的钱相加起来应该还是5000，这就是事务的一致性
+        隔离性(Isolation):指当多个用户并发访问数据库时，数据库为每一个用户开启的事务不能被其他的事务操作所干扰，多个并发事务之间要相互隔离。同一时间，只允许一个事务请求同一组数据。不同的事务彼此之间没有干扰。
+        持久性(Durability):一个事务一旦被提交，则对数据库的所有更新将被保存到数据库中，不能回滚。
 
 16>	Mysql跟Oracle的分页
-①Mysql分页: select * from stu limit m, n;//m = (startPage-1)*pageSize,n = pageSize
-第一个参数值m表示起始行，第二个参数表示取多少行（页面大小）
-m、n参数值不能在语句当中写计算表达式，写到语句之前必须计算好值。
-②Oracle分页:
-select * from (select rownum rn,a.* from table_name a where rownum <= x) where rn >= y;
-//结束行，x = startPage*pageSize
-//起始行，y = (startPage-1)*pageSize+1
-rownum只能比较小于，不能比较大于，因为rownum是先查询后排序的
+
+	①Mysql分页: 
+    select * from stu limit m, n;//m = (startPage-1)*pageSize,n = pageSize
+        第一个参数值m表示起始行，第二个参数表示取多少行（页面大小）
+        m、n参数值不能在语句当中写计算表达式，写到语句之前必须计算好值。
+    ②Oracle分页:
+    select * from (select rownum rn,a.* from table_name a where rownum <= x) where rn >= y;
+        //结束行，x = startPage*pageSize
+        //起始行，y = (startPage-1)*pageSize+1
+        rownum只能比较小于，不能比较大于，因为rownum是先查询后排序的
 
 17>	Mysql跟Oracle的主键自增
-①Mysql主键自增,mybatis中添加数据
-<insert id="saveSmartUser" parameterType="com.sun.repository.bean.SmartUser"
-useGeneratedKeys="true" keyProperty="id">
-INSERT INTO SMART_USER(USERNAME, PASSWORD, AGE, GENDER) VALUES
-(#{userName},#{password},#{age},#{gender})
-</insert>
+
+	①Mysql主键自增,mybatis中添加数据
+    <insert id="saveSmartUser" parameterType="com.sun.repository.bean.SmartUser"
+    useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO SMART_USER(USERNAME, PASSWORD, AGE, GENDER) VALUES
+    (#{userName},#{password},#{age},#{gender})
+    </insert>
 
 	②Oracle主键自增:
 	(1)序列（SEQUENCE）
@@ -556,22 +573,25 @@ INSERT INTO SMART_USER(USERNAME, PASSWORD, AGE, GENDER) VALUES
         ④空行:发送回车符和换行符，通知服务器以下不再有请求头
 
 23>响应报文
-状态行:
-消息报头:
-响应正文:
+
+	状态行:
+    消息报头:
+    响应正文:
 
 24>post请求的body体有数据大小限制么
-长度限制是有浏览器和web应用服务器决定的,tomcat默认限制post大的大小是2M
-设置post请求的大小（以tomcat为例），在conf/server.xml 文件中，在 <Connector/> 标签中设置  maxPostSize="0"，maxPostSize="0"，就代表post请求的参数无限制。
+
+	长度限制是有浏览器和web应用服务器决定的,tomcat默认限制post大的大小是2M
+    设置post请求的大小（以tomcat为例），在conf/server.xml 文件中，在 <Connector/> 标签中设置  maxPostSize="0"，maxPostSize="0"，就代表post请求的参数无限制。
 
 25>常见Mysql的慢查询优化方式
-第一步.开启mysql慢查询
-方式一:修改配置文件  在 my.ini 增加几行:  主要是慢查询的定义时间（超过2秒就是慢查询），以及慢查询log日志记录（ slow_query_log）
-//开启慢查询,定义超过多少秒的查询算是慢查询
-slow_query_log = on
-long_query_time=2
-//记录下没有使用索引的查询
-log-querise-not-using-indexes=ON;
+
+	第一步.开启mysql慢查询
+    方式一:修改配置文件  在 my.ini 增加几行:  主要是慢查询的定义时间（超过2秒就是慢查询），以及慢查询log日志记录（ slow_query_log）
+    //开启慢查询,定义超过多少秒的查询算是慢查询
+    slow_query_log = on
+    long_query_time=2
+    //记录下没有使用索引的查询
+    log-querise-not-using-indexes=ON;
 
 	方法二：通过MySQL数据库开启慢查询
 	set global slow_query_log = ON;
@@ -581,21 +601,33 @@ log-querise-not-using-indexes=ON;
 	利用explain关键字可以模拟优化器执行SQL查询语句
 
 26>双亲委派模型
-如果一个类加载器收到类加载的请求，它首先不会自己去尝试加载这个类，而是把这个请求委派给父类加载器完成。
-每个类加载器都是如此，只有当父加载器在自己的搜索范围内找不到指定的类时（即ClassNotFoundException），子加载器才会尝试自己去加载。
+
+	如果一个类加载器收到类加载的请求，它首先不会自己去尝试加载这个类，而是把这个请求委派给父类加载器完成。
+    每个类加载器都是如此，只有当父加载器在自己的搜索范围内找不到指定的类时（即ClassNotFoundException），
+    子加载器才会尝试自己去加载。
 
 27>TCP释放连接时为什么time_wait状态必须等待2MSL时间?
-①为了保证客户端发送的最后一个ACK报文段能够到达服务器。因为这个ACK有可能丢失，从而导致处在LAST-ACK状态的服务器收不到对FIN-ACK的确认报文。服务器会超时重传这个FIN-ACK，
-接着客户端再重传一次确认，重新启动时间等待计时器。最后客户端和服务器都能正常的关闭。假设客户端不等待2MSL，而是在发送完ACK之后直接释放关闭，一但这个ACK丢失的话，服务器就无法正常的进入关闭连接状态。
-②他还可以防止已失效的报文段。客户端在发送最后一个ACK之后，再经过经过2MSL，就可以使本链接持续时间内所产生的所有报文段都从网络中消失。从保证在关闭连接后不会有还在网络中滞留的报文段去骚扰服务器。
-注意：在服务器发送了FIN-ACK之后，会立即启动超时重传计时器。客户端在发送最后一个ACK之后会立即启动时间等待计时器。
 
-28>MyBatis 有哪些拦截器？如何实现拦截功能？
-①Executor：拦截内部执行器，它负责调用 StatementHandler 操作数据库，并把结果
-集通过 ResultSetHandler 进行自动映射，另外它还处理了二级缓存的操作。
-②StatementHandler：拦截 SQL 语法构建的处理，它是 MyBatis 直接和数据库执行SQL 脚本的对象，另外它也实现了 MyBatis 的一级缓存。
-③ParameterHandler：拦截参数的处理。
-④ResultSetHandler：拦截结果集的处理。
+	①为了保证客户端发送的最后一个ACK报文段能够到达服务器。因为这个ACK有可能丢失，从而导致处在LAST-ACK状态
+    的服务器收不到对FIN-ACK的确认报文。服务器会超时重传这个FIN-ACK，
+    接着客户端再重传一次确认，重新启动时间等待计时器。最后客户端和服务器都能正常的关闭。假设客户端不等
+    待2MSL，而是在发送完ACK之后直接释放关闭，一但这个ACK丢失的话，服务器就无法正常的进入关闭连接状态。
+    
+    ②他还可以防止已失效的报文段。客户端在发送最后一个ACK之后，再经过经过2MSL，就可以使本链接持续时间内所产
+    生的所有报文段都从网络中消失。从保证在关闭连接后不会有还在网络中滞留的报文段去骚扰服务器。
+    注意：在服务器发送了FIN-ACK之后，会立即启动超时重传计时器。客户端在发送最后一个ACK之后会立即启动时间等待计时器。
+
+28>MyBatis有哪些拦截器？如何实现拦截功能？
+
+	①Executor：拦截内部执行器，它负责调用StatementHandler操作数据库，并把结果
+        集通过ResultSetHandler进行自动映射，另外它还处理了二级缓存的操作。
+
+    ②StatementHandler：拦截SQL语法构建的处理，它是MyBatis直接和数据库执行SQL脚本的对象，
+    另外它也实现了MyBatis的一级缓存。
+
+    ③ParameterHandler：拦截参数的处理。
+
+    ④ResultSetHandler：拦截结果集的处理。
 
 28>类的加载
 
