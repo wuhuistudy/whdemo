@@ -69,7 +69,11 @@ redis问题补充:Redis缓存雪崩、缓存穿透、热点Key
 		(1) 这个key是一个热点key（例如一个重要的新闻，一个热门的八卦新闻等等），所以这种key访问量可能非常大。
 		(2) 缓存的构建是需要一定时间的。（可能是一个复杂计算，例如复杂的sql、多次IO、多个依赖(各种接口)等等）
 		    于是就会出现一个致命问题：在缓存失效的瞬间，有大量线程来构建缓存，造成后端负载加大，甚至可能会让系统崩溃 。
-
+    
+    Redis事务的三个阶段
+        1.事务开始 MULTI
+        2.命令入队
+        3.事务执行 EXEC
 			
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -180,19 +184,42 @@ redis问题补充:Redis缓存雪崩、缓存穿透、热点Key
     如果每条消息处理时间超过60秒，那么一批消息处理时间将超过5分钟，从而引发poll超时，最终导致重复消费。
 
 	消息重复消费和消息丢包的解决办法
-	保证不丢失消息：生产者（ack=all 代表至少成功发送一次)     重试机制
-	消费者 （offset手动提交，业务逻辑成功处理后，提交offset） 
-	保证不重复消费：落表（主键或者唯一索引的方式，避免重复数据） 
-	业务逻辑处理（选择唯一主键存储到Redis或者mongdb中，先查询是否存在，若存在则不处理；若不存在，先插入Redis或Mongdb,再进行业务逻辑处理）
 
-	①什么是kafka
-		是一个分布式发布-订阅消息系统
-	②为什么要使用 kafka，为什么要使用消息队列
-		(1)缓冲和削峰;上游数据时有突发流量，下游可能扛不住，或者下游没有足够多的机器来保证冗余，
-		kafka在中间可以起到一个缓冲的作用，把消息暂存在kafka中，下游服务就可以按照自己的节奏进行慢慢处理。
-		(2)
-	③
-	④
+	1.消息发送（生产者）
+        Kafka消息发送有两种方式：同步（sync）和异步（async），默认是同步方式，可通过producer.type属性进行配置
+
+        Kafka通过配置request.required.acks属性来确认消息的生产：
+
+        0---表示不进行消息接收是否成功的确认；
+
+        1---表示当Leader接收成功时确认；
+        
+        -1---表示Leader和Follower都接收成功时确认；
+
+    2.消息消费（消费者）
+        Kafka消息消费有两个consumer接口，Low-levelAPI和High-levelAPI：
+        
+        Low-levelAPI：消费者自己维护offset等值，可以实现对Kafka的完全控制；
+        
+        High-levelAPI：封装了对parition和offset的管理，使用简单；
+
+    消息丢失：
+        同步模式下，确认机制设置为-1，即让消息写入Leader和Follower之后再确认消息发送成功；
+        设置 -1 保证produce写入所有副本算成功 
+        producer.type = sync
+        request.required.acks=-1
+        
+        异步模式下，为防止缓冲区满，可以在配置文件设置不限制阻塞超时时间，当缓冲区满时让生
+        产者一直处于阻塞状态；
+    
+        消费者 （offset手动提交，业务逻辑成功处理后，提交offset）
+
+    消息重复消费：
+        将消息的唯一标识保存到外部介质中，每次消费时判断是否处理过即可。
+        保证不重复消费：落表（主键或者唯一索引的方式，避免重复数据）
+        业务逻辑处理（选择唯一主键存储到Redis或者mongdb中，先查询是否存在，若存在则不处理；若不存在，
+        先插入Redis或Mongdb,再进行业务逻辑处理）
+
 
 2>HashMap相关
 
@@ -392,7 +419,7 @@ redis问题补充:Redis缓存雪崩、缓存穿透、热点Key
 		3>CMS：CMS收集器是以获取最短停顿时间为目标的收集器
             -XX:+UseConcMarkSweepGC
             标记-清除算法
-            缺点：   吞吐量低
+            缺点：  吞吐量低
                     无法处理浮动垃圾
                     标记 - 清除算法带来的内存空间碎片问题
 
@@ -809,6 +836,30 @@ redis问题补充:Redis缓存雪崩、缓存穿透、热点Key
         
         singletonFactories
 
-37>设计模式
-
+37>SpringMVC的执行流程
         
+    1、用户发送请求至前端控制器DispatcherServlet。
+
+    2、DispatcherServlet收到请求调用HandlerMapping处理器映射器。
+    
+    3、处理器映射器找到具体的处理器(可以根据xml配置、注解进行查找)，
+        生成处理器对象及处理器拦截器(如果有则生成)一并返回给DispatcherServlet。
+    
+    4、DispatcherServlet调用HandlerAdapter处理器适配器。
+    
+    5、HandlerAdapter经过适配调用具体的处理器(Controller，也叫后端控制器)。
+    
+    6、Controller执行完成返回ModelAndView。
+    
+    7、HandlerAdapter将controller执行结果ModelAndView返回给DispatcherServlet。
+    
+    8、DispatcherServlet将ModelAndView传给ViewReslover视图解析器。
+    
+    9、ViewReslover解析后返回具体View.
+    
+    10、DispatcherServlet根据View进行渲染视图（即将模型数据填充至视图中）。
+    
+    11、DispatcherServlet响应用户。
+    
+
+38>
