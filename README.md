@@ -731,6 +731,9 @@ redis问题补充:Redis缓存雪崩、缓存穿透、热点Key
         String cmower = new String("沉默王二");
         上面这段代码使用了 new 关键字来实例化一个字符串对象，
         那么这时候，就会调用 String 类的构造方法对 cmower 进行实例化。
+
+        反编译：
+        javap -p -v SynchronizedDemo.class
 	
 29>类加载器
     
