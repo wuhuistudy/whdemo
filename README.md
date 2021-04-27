@@ -874,6 +874,8 @@ redis问题补充:Redis缓存雪崩、缓存穿透、热点Key
         
         singletonFactories
 
+        注意：构造器的循环依赖无法解决，属性注入的循环依赖可以通过三级缓存解决。
+
 37>SpringMVC的执行流程
         
     1、用户发送请求至前端控制器DispatcherServlet。
