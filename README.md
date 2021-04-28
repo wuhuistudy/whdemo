@@ -916,3 +916,11 @@ redis问题补充:Redis缓存雪崩、缓存穿透、热点Key
     索引代替。如果没有这样的索引，InnoDB 会隐式定义一个主键来作为聚簇索引。
     InnoDB 只聚集在同一个页面中的记录。包含相邻健值的页面可能相距甚远。
 
+39>Mysql 的 MVCC 原理
+        
+    事务id：trx_id
+    回滚指针：roll_pointer
+    回滚日志：undo日志
+dfs
+sfd
+    
