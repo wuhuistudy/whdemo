@@ -977,3 +977,19 @@ redis问题补充:Redis缓存雪崩、缓存穿透、热点Key
     CountDownLatch的实现原理
         内部类叫做Sync，它继承了AbstractQueuedSynchronizer类，其中维护了一个整数state，并且保证了修改state的可见性和原子性。
         创建CountDownLatch实例时，也会创建一个Sync的实例，同时把计数器的值传给Sync实例
+
+42>volatile原理
+        
+    1.可见性    
+    2.不保证原子性
+    3.禁止指令重排
+
+    JMM：内存模型
+
+43>cas原理
+        
+    cas ： compareAndSet 比较并替换
+    
+    底层原理：
+        1.
+        2.
