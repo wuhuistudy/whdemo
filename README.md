@@ -1348,6 +1348,8 @@
         # 放在一个do-while循环里
 
         Unsafe类，native修饰的方法
+    
+    ABA问题解决：加版本号
 
 ### 60.Oracle的优化器
 
