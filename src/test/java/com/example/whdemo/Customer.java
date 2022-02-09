@@ -1,5 +1,6 @@
 package com.example.whdemo;
 
+import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
@@ -19,7 +20,7 @@ public class Customer implements Runnable {
     public void run() {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss.SSS");
-            Random random = new Random();
+            SecureRandom random = new SecureRandom();
 
             System.out.println(sdf.format(new Date()) + " " + name + "出发去饭店");
             Thread.sleep((long) (random.nextDouble() * 3000) + 1000);
