@@ -593,7 +593,8 @@
                 
                 ## 缺陷：
                     ### 效率问题；
-                    ### 空间问题（标记清除后会产生大量不连续的碎片）；
+                    ### 空间问题（
+）；
                     
             # 标记-复制算法
                 ## 原理：
@@ -1973,3 +1974,18 @@
         # 模型定义：SpringCloud是将一个应用定义为一个服务；Dubbo是将一个接口定义为一个服务
 
         SpringCloud是一种生态，而Dubbo是SpringCloud生态中关于服务调用一种解决方案（服务治理）
+
+### 86. Spring 中都使用了哪些设计模式
+
+        # 代理模式：在AOP中有使用
+        
+        # 单例模式：bean默认是单例的
+        
+        # 模板方法模式：jdbcTemplate
+        
+        # 工厂模式：BeanFactory
+    
+        # 观察者模式：Spring事件驱动模型就是观察者模式很经典的一个应用，比如，ContextStartedEvent就是
+                        ApplicationContext启动后触发的事件
+        
+        # 适配器模式：SpringMVC中适配器模式适配Controller
