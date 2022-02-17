@@ -2006,3 +2006,30 @@
 
                 ### 所有引用类型都实现克隆：要复制对象的所有引用类型都要实现克隆，所有对象都是复
                         制的新对象，从而实现了深克隆。
+
+
+### 88. HashTable和HashMap的区别
+    
+        # 继承父类不同
+            
+            ## Hashtable继承自Dictionary类，而HashMap继承自AbstractMap类；但二者都实现了Map接口。
+
+        # 线程的安全性
+            
+            ## HashTable是同步(方法中使用了Synchronize)的；而HashMap是未同步（方法中缺省Synchronize）的。
+
+        # 可否允许有null值
+        
+            ## Hashtable中，key和value都不允许出现null值。
+            
+            ## HashMap允许null值(key和value都可以)，因为在HashMap中null可以作为健，而它对应的值可以有多个null。
+
+        # 遍历方式内部实现不同
+        
+            ## HashTable使用Enumeration，HashMap使用Iterator。
+
+        # 数组初始化和扩容不同
+        
+            ## HashTable中hash数组默认大小是11，增加的方式是 arr*2+1。
+        
+            ## HashMap中hash数组的默认大小是16，而且一定是2的指数。
