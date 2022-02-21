@@ -2032,3 +2032,33 @@
             ## HashTable中hash数组默认大小是11，增加的方式是 arr*2+1。
         
             ## HashMap中hash数组的默认大小是16，而且一定是2的指数。
+
+
+### 89. 数据库优化查看
+
+        # 查看优化器状态
+
+            show variables like 'optimizer_trace';
+
+        # 会话级别临时开启
+
+            set session optimizer_trace="enabled=on",end_markers_in_json=on;
+    
+        # 设置优化器追踪的内存大小
+
+            set OPTIMIZER_TRACE_MAX_MEM_SIZE=1000000;
+        
+        # 执行自己的SQL
+
+            select host,user,plugin from user;
+    
+        # information_schema.optimizer_trace表
+
+            SELECT trace FROM information_schema.OPTIMIZER_TRACE;
+
+        # 导入到一个命名为xx.trace的文件，然后用JSON阅读器来查看（如果没有控制台权限，或直接交由运维，
+            让他把该 trace 文件，输出给你就行了）
+
+            SELECT TRACE INTO DUMPFILE "E:\\test.trace" FROM INFORMATION_SCHEMA.OPTIMIZER_TRACE;
+        
+        ## 注意：不设置优化器最大容量的话，可能会导致优化器返回的结果不全。
