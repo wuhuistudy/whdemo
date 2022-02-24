@@ -842,7 +842,7 @@
 
 ### 32.Spring事务传播行为（propagation behavior）指的就是当一个事务方法被另一个事务方法调用时，这个事务方法应该如何进行。
 
-    ①PROPAGATION_REQUIRED:如果存在一个事务，则支持当前事务。如果没有事务则开启一个新的事务。
+    ①PROPAGATION_REQUIRED:如果存在一个事务，则支持当前事务。如果没有事务则开启一个新的事务。（默认）
 
     ②PROPAGATION_SUPPORTS:如果存在一个事务，支持当前事务。如果没有事务，则非事务的执行。
 
@@ -2062,3 +2062,36 @@
             SELECT TRACE INTO DUMPFILE "E:\\test.trace" FROM INFORMATION_SCHEMA.OPTIMIZER_TRACE;
         
         ## 注意：不设置优化器最大容量的话，可能会导致优化器返回的结果不全。
+
+
+### 90. 堆溢出跟栈溢出
+    
+
+        # 堆溢出（java.lang.OutOfMemoryError(OOM)）
+
+            ## 不断的new 一个对象，一直创建新的对象
+
+        # 栈溢出（java.lang.StackOverflowError）
+
+            ## 死循环或者是递归太深，递归的原因，可能太大，也可能没有终止。
+
+
+### 91. 最左匹配原则
+
+        # 假设组合索引为：a,b,c的话；那么当SQL中对应有：a或a，b或a，b，c的时候，可称为完全满足最左原则；
+            当SQL中查询条件对应只有a，c的时候，可称为部分满足最左原则；当SQL中没有a的时候，可称为不满足最左原则。
+
+        注：MySQL5.7开始，会自动优化，如：会把c，b，a优化为a，b，c使之完全遵循最左原则；会把c，a优化为a，c使之部
+            分遵循最左原则。即：SQL语句中的对应条件的先后顺序无关。
+
+
+
+### 92. HTTPS和HTTP的主要区别
+
+        # https协议需要到CA申请证书，一般免费证书较少，因而需要一定费用。
+
+        # http是超文本传输协议，信息是明文传输，https则是具有安全性的ssl/tls加密传输协议。
+
+        # http和https使用的是完全不同的连接方式，用的端口也不一样，前者是80，后者是443。
+
+        # http的连接很简单，是无状态的；HTTPS协议是由SSL/TLS+HTTP协议构建的可进行加密传输、身份认证的网络协议，比http协议安全。
